@@ -1,0 +1,1 @@
+In this project, I am trying to combine frontend and backend and create a blog api. The project includes an authentication system which allows user to register and login. Once the user is logged in, they will be able to see all the post made by other users and comment on the post.
