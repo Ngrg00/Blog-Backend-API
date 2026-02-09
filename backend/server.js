@@ -1,7 +1,12 @@
 const express = require("express");
-const app = express();
+const connectionDB = require("./config/dbConnection");
+const dotenv = require("dotenv")
+dotenv.config();
 
-const port = 5000;
+connectionDB();
+
+const app = express();
+const port = process.env.PORT || 5000;
 
 app.use("/", (req, res) => {
     res.send("API is running!!!");
