@@ -1,8 +1,27 @@
 const asyncHandler = require("express-async-handler");
 const Post = require("../models/post.js");
+const Comment = require("../models/comment.js");
 
 const getPosts = asyncHandler(async (req, res) => {
-    const posts = await Post.find({ author_id: req.user.id });
+    const posts = await Post.find()
+        .populate("author_id", "username")
+        .populate({
+            path: "comments",
+            populate: { path: "author_id", select: "username" }
+        })
+        .sort({ createdAt: 1 });
+    
+    res.status(200).json(posts);
+});
+
+const getMyPosts = asyncHandler(async (req, res) => {
+    const posts = await Post.find({ author_id: req.user.id })
+        .populate("author_id", "username")
+        .populate({
+            path: "comments",
+            populate: { path: "author_id", select: "username" }
+        })
+        .sort({ createdAt: 1 });
 
     res.status(200).json(posts);
 });
@@ -26,7 +45,13 @@ const createPost = asyncHandler(async (req, res) => {
 });
 
 const getPost = asyncHandler(async (req, res) => {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id)
+        .populate("author_id", "username")
+        .populate({
+            path: "comments",
+            populate: { path: "author_id", select: "username" }
+        })
+        .sort({ createdAt: 1 });
 
     if(!post) {
         res.status(404);
@@ -56,7 +81,13 @@ const editPost = asyncHandler(async (req,res) => {
         req.params.id,
         req.body,
         { new: true }
-    ); 
+    )
+        .populate("author_id", "username")
+        .populate({
+            path: "comments",
+            populate: { path: "author_id", select: "username" }
+        })
+        .sort({ createdAt: 1 }); 
 
     res.status(200).json(updatedPost);
 }); 
@@ -81,4 +112,7 @@ const deletePost = asyncHandler(async (req,res) => {
     res.status(200).json(post);
 });
 
-module.exports = { getPosts, createPost, getPost, editPost, deletePost }
+function postWithComments() {
+
+}
+module.exports = { getPosts, getMyPosts, createPost, getPost, editPost, deletePost }

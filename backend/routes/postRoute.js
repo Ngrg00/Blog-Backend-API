@@ -5,6 +5,7 @@ const router = express.Router();
 
 const {
     getPosts,
+    getMyPosts,
     getPost,
     createPost,
     editPost,
@@ -14,6 +15,7 @@ const {
 router.use(validateToken);
 
 router.get("/", getPosts);
+router.get("/me", getMyPosts);
 router.post("/", createPost);
 router.get("/:id", getPost);
 router.put("/:id", editPost);

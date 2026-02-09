@@ -13,10 +13,10 @@ const comment = mongoose.Schema(
             ref: "Post"
         },
 
-        user_id: {
+        author_id: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: "User"
+            ref:"User"
         }
     }, 
 
