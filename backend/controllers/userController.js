@@ -59,7 +59,7 @@ const login = asyncHandler(async (req, res) => {
             }
         }, process.env.ACCESS_TOKEN, { expiresIn: "60m" });
 
-        res.status(200).json(accessToken);
+        res.status(200).json({ accessToken, user: { id: user.id, username: user.usename, email: user.email } });
     } else {
         res.status(401);
 

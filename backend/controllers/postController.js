@@ -112,7 +112,4 @@ const deletePost = asyncHandler(async (req,res) => {
     res.status(200).json(post);
 });
 
-function postWithComments() {
-
-}
 module.exports = { getPosts, getMyPosts, createPost, getPost, editPost, deletePost }
