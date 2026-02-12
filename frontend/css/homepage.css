@@ -1,0 +1,81 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.addPost {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 798px;
+    border: 1px solid lightgrey;
+}
+
+.addPost input {
+    flex: 1;
+    font-size: 20px;
+    padding: 10px 10px 10px 10px;
+    border: none;
+}
+
+.addPost button {
+    position: absolute;
+    right: 10px;
+    width: 80px;
+    height: 28px;
+    background-color: rgb(38, 61, 231);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.addPost button:active {
+    background-color: rgb(105, 118, 214);
+}
+
+p {
+    font-size: 20px;
+    margin-top: 6px;
+}
+
+.homepage {
+    width: 800px;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    padding: 10px 30px;
+    cursor: pointer;
+}
+
+.bottom {
+    margin-top: auto;
+}
+
+.post:hover {
+    background-color: rgb(245, 244, 244);
+}
+
+.bottom button {
+    border: none;
+    background-color: transparent;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.bottom button:hover {
+    background-color: lightgrey;
+}
+
+.bottom button img {
+    width: auto;
+    height: 20px;
+}

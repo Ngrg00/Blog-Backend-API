@@ -9,7 +9,7 @@ const getPosts = asyncHandler(async (req, res) => {
             path: "comments",
             populate: { path: "author_id", select: "username" }
         })
-        .sort({ createdAt: 1 });
+        .sort({ createdAt: -1 });
     
     res.status(200).json(posts);
 });
@@ -21,22 +21,21 @@ const getMyPosts = asyncHandler(async (req, res) => {
             path: "comments",
             populate: { path: "author_id", select: "username" }
         })
-        .sort({ createdAt: 1 });
+        .sort({ createdAt: -1 });
 
     res.status(200).json(posts);
 });
 
 const createPost = asyncHandler(async (req, res) => {
-    const { title, content } = req.body;
+    const { content } = req.body;
 
-    if(!title || !content) {
+    if(!content) {
         res.status(400);
 
         throw new Error("All fields are required.");
     }
 
     const post = await Post.create({
-        title,
         content,
         author_id: req.user.id,
     });
@@ -51,7 +50,7 @@ const getPost = asyncHandler(async (req, res) => {
             path: "comments",
             populate: { path: "author_id", select: "username" }
         })
-        .sort({ createdAt: 1 });
+        .sort({ createdAt: -1 });
 
     if(!post) {
         res.status(404);
@@ -87,7 +86,7 @@ const editPost = asyncHandler(async (req,res) => {
             path: "comments",
             populate: { path: "author_id", select: "username" }
         })
-        .sort({ createdAt: 1 }); 
+        .sort({ createdAt: -1 }); 
 
     res.status(200).json(updatedPost);
 }); 

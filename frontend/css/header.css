@@ -1,0 +1,56 @@
+/* Header */
+
+.header {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: white;
+    height: 60px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.left {
+    border: 1px solid black;
+    margin-left: 10px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.middle {
+    position: relative;
+    display: flex;
+    flex: 1;
+    max-width: 600px;
+}
+
+.middle input {
+    flex: 1;
+    font-size: 16px;
+    font-family: Arial;
+    padding: 10px 50px 10px 20px;
+    border-radius: 50px;
+    border: 1px solid black;
+
+}
+
+.middle button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.right img {
+    height: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+}

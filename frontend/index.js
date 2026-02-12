@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const user = await resUser.json();
 
-        window.alert(`Welcome ${user.username}`)
+        //window.alert(`Welcome ${user.username}`)
     } catch (error) {
         console.log(error);
 
@@ -122,20 +122,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                 commentHtml = "<ul>";
 
                 post.comments.forEach(comment => {
-                    commentHtml += `<li><strong>${comment.author_id.username}: <strong>${comment.text}</li>`
+                    commentHtml += `<li><strong>${comment.author_id.username}: </strong>${comment.text}</li>`
                 });
 
                 commentHtml += "</ul>";
             }
 
             container.innerHTML = 
-            `
-                <small>${post.author_id.username}<small>
-                <h3>${post.title}<h3>
-                <p>${post.content}<p>
-                <div class="comments">
-                    <h4>Comments: </h4>
-                    ${commentHtml}
+            `   
+                <div class="top">
+                    <p id="author"><strong>${post.author_id.username}</strong></p>
+                    <p>${post.content}</p>
+                </div>
+                <div class="bottom">
+                    <button><img src="../img/comment.svg"></button>
+                    <button><img src="../img/heart_icon.svg" id="heart"></button>
                 </div>
             `;
 

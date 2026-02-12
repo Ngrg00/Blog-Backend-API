@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const postModel = mongoose.Schema(
     {
-        title: {
-            type: String,
-            required: [true, "Please enter a the post title."]
-        }, 
-
         content: {
             type: String,
             required: [true, "Please enter the content of your post."]
