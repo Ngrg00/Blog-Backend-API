@@ -58,10 +58,6 @@ p {
     margin-top: auto;
 }
 
-.post:hover {
-    background-color: rgb(245, 244, 244);
-}
-
 .bottom button {
     border: none;
     background-color: transparent;
@@ -73,6 +69,10 @@ p {
 
 .bottom button:hover {
     background-color: lightgrey;
+}
+
+.bottom button:active {
+    background-color: rgb(235, 232, 232);
 }
 
 .bottom button img {
