@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    const textarea = document.querySelector(".addPost textarea");
+
+    textarea.addEventListener("input", () => {
+        textarea.style.height = "20px";
+        textarea.style.height = textarea.scrollHeight + "px";
+    });
+
     const getAllPost = async () => {
 
         const addPost = document.querySelector(".addPost");
@@ -39,8 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <p>${post.content}</p>
                     </div>
                     <div class="bottom">
-                        <button class="commentBtn")"><img src="../img/comment.svg"></button>
-                        <button class="like"><img src="../img/heart_icon.svg" id="heart"></button>
+                        <button class="commentBtn"><img src="../img/comment.svg"></button>
+                        <button class="likeBtn"><img src="../img/heart_icon.svg" class="heart"></button>
                     </div>
                 `;
 
@@ -81,6 +88,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 
                 });
 
+                const likeBtn = container.querySelector(".likeBtn");
+                
+                let liked = false;
+
+                likeBtn.addEventListener("click", () => {
+                    const heartIcon = container.querySelector(".heart");
+                    liked = !liked;
+
+                    if(liked) {
+                        heartIcon.src = "../img/heart_filled.svg";
+                    } else {
+                        heartIcon.src = "../img/heart_icon.svg";
+                    }
+                })
                 homepage.appendChild(container);
             });
         
