@@ -12,20 +12,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const getAllPost = async () => {
-        const addPostDiv = document.querySelector(".addPost");
-        homepage.innerHTML = "";
-        homepage.appendChild(addPostDiv);
-        
-        try {
-            const resPost = await fetch("http://localhost:5000/api/post", 
-                { headers: {"Authorization": `Bearer ${token}` } 
-            });
 
-            if(!resPost.ok) {
+        const addPost = document.querySelector(".addPost");
+        homepage.innerHTML = "";
+        homepage.appendChild(addPost);
+
+        try {
+            const resPosts = await fetch("http://localhost:5000/api/post", 
+                { headers: {"Authorization": `Bearer ${token}`} }
+            );
+
+            if(!resPosts.ok) {
                 throw new Error("Token is invalid or expired.");
             }
 
-            const posts = await resPost.json();
+            const posts = await resPosts.json();
 
             posts.forEach(post => {
                 const container = document.createElement("div");
@@ -38,13 +39,50 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <p>${post.content}</p>
                     </div>
                     <div class="bottom">
-                        <button><img src="../img/comment.svg"></button>
-                        <button><img src="../img/heart_icon.svg" id="heart"></button>
+                        <button class="commentBtn")"><img src="../img/comment.svg"></button>
+                        <button class="like"><img src="../img/heart_icon.svg" id="heart"></button>
                     </div>
                 `;
 
+                const commentBtn = container.querySelector(".commentBtn");
+
+                commentBtn.addEventListener("click", () => {
+
+                    if(container.querySelector(".addComment")) { container.querySelector(".addComment").remove(); };
+
+                    const addComment = document.createElement("div");
+                    addComment.className = "addComment";
+                    addComment.style.display = "flex";
+
+                    addComment.addEventListener("click", (e) => {
+                        if(e.target === addComment) {
+                             addComment.style.display = "none";
+                        }
+                    });
+
+                    addComment.innerHTML = 
+                        `
+                            <div class="popupBox">
+                                <div id="post">
+                                    <div class="top">
+                                        <p id="author"><strong>${post.author_id.username}</strong></p>
+                                        <p>${post.content}</p>
+                                    </div>
+
+                                    <div class="bottom">
+                                        <input type="text" placeholder="Write a comment...">
+                                        <button class="addCommentBtn">Send</button>
+                                    </div
+                                </div>
+                            </div>
+                        `
+
+                    container.appendChild(addComment);
+                
+                });
+
                 homepage.appendChild(container);
-            })
+            });
         
         } catch (error) {
             console.log(error);
@@ -106,7 +144,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (error) {
             
         }
-    })
-
-    
+    });
 });
+
