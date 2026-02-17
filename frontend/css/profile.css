@@ -1,0 +1,17 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.profile {
+    border: 1px solid black;
+    width: 800px;
+    height: 200px;
+}
+
+.userProfile {
+    border: 1px solid black;
+}

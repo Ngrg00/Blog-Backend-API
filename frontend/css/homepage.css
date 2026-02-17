@@ -15,10 +15,11 @@ p {
 
 .addPost {
     display: flex;
+    flex: 1;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 798px;
+    max-width: 798px;
     border: 1px solid lightgrey;
 }
 
@@ -63,6 +64,8 @@ p {
     border: 1px solid lightgrey;
     padding: 10px 30px;
     cursor: pointer;
+    color: black;
+    text-decoration: none;
 }
 
 .bottom {

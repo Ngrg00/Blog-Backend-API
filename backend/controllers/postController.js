@@ -7,7 +7,8 @@ const getPosts = asyncHandler(async (req, res) => {
         .populate("author_id", "username")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" }
+            populate: { path: "author_id", select: "username" },
+            options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 });
     
@@ -19,7 +20,8 @@ const getMyPosts = asyncHandler(async (req, res) => {
         .populate("author_id", "username")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" }
+            populate: { path: "author_id", select: "username" },
+            options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 });
 
@@ -48,7 +50,8 @@ const getPost = asyncHandler(async (req, res) => {
         .populate("author_id", "username")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" }
+            populate: { path: "author_id", select: "username" },
+            options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 });
 
@@ -84,7 +87,8 @@ const editPost = asyncHandler(async (req,res) => {
         .populate("author_id", "username")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" }
+            populate: { path: "author_id", select: "username" },
+            options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 }); 
 
