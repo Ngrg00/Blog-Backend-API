@@ -1,1 +1,3 @@
-In this project, I am trying to combine frontend and backend and create a blog api. The project includes an authentication system which allows user to register and login. Once the user is logged in, they will be able to see all the post made by other users and comment on the post.
+This is my first project that uses frontend and backend together to create a blog website.
+
+In this project, I have used JWT authentication system to register and login user in. Once logged in, user is able to see all posts made by other users, create a post, edit and delete posts they have posted, and comment on others' posts. 
