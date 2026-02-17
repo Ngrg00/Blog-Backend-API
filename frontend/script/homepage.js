@@ -35,124 +35,132 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const posts = await resPosts.json();
 
-            posts.forEach(post => {
-                const date = new Date(post.createdAt).toLocaleDateString();
-                const time = new Date(post.createdAt).toLocaleTimeString();
-
+            if(posts.length === 0) {
                 const container = document.createElement("div");
                 container.className = "post";
 
-                container.addEventListener("click", () => {
-                    window.location.href = `./postPage.html?id=${post._id}`;
-                })
-                
-                container.innerHTML = 
-                `   
-                    <div class="top">
-                        <p id="author"><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
-                        <p>${post.content}</p>
-                    </div>
-                    <div class="bottom">
-                        <button class="commentBtn"><img src="../img/comment.svg"></button>
-                        <button class="likeBtn"><img src="../img/heart_icon.svg" class="heart"></button>
-                    </div>
-                `;
+                container.innerHTML = "Add something..."
 
-                const commentBtn = container.querySelector(".commentBtn");
+                homepage.appendChild(container);
+            } else {
+                posts.forEach(post => {
+                    const date = new Date(post.createdAt).toLocaleDateString();
+                    const time = new Date(post.createdAt).toLocaleTimeString();
 
-                commentBtn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    const container = document.createElement("div");
+                    container.className = "post";
 
-                    if(container.querySelector(".addComment")) { container.querySelector(".addComment").remove(); };
+                    container.addEventListener("click", () => {
+                        window.location.href = `./postPage.html?id=${post._id}`;
+                    })
+                    
+                    container.innerHTML = 
+                    `   
+                        <div class="top">
+                            <p id="author"><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                            <p>${post.content}</p>
+                        </div>
+                        <div class="bottom">
+                            <button class="commentBtn"><img src="../img/comment.svg"></button>
+                            <button class="likeBtn"><img src="../img/heart_icon.svg" class="heart"></button>
+                        </div>
+                    `;
 
-                    const addComment = document.createElement("div");
-                    addComment.className = "addComment";
-                    addComment.style.display = "flex";
+                    const commentBtn = container.querySelector(".commentBtn");
 
-                    addComment.addEventListener("click", (e) => {
+                    commentBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
                         e.stopPropagation();
 
-                        if(e.target === addComment) {
-                             addComment.style.display = "none";
+                        if(container.querySelector(".addComment")) { container.querySelector(".addComment").remove(); };
+
+                        const addComment = document.createElement("div");
+                        addComment.className = "addComment";
+                        addComment.style.display = "flex";
+
+                        addComment.addEventListener("click", (e) => {
+                            e.stopPropagation();
+
+                            if(e.target === addComment) {
+                                addComment.style.display = "none";
+                            }
+                        });
+
+                        addComment.innerHTML = 
+                            `
+                                <div class="popupBox">
+                                    <div id="post">
+                                        <div class="top">
+                                            <p id="author"><strong>${post.author_id.username}</strong></p>
+                                            <p>${post.content}</p>
+                                        </div>
+
+                                        <div class="bottom">
+                                            <input type="text" placeholder="Write a comment..." class="commentInput">
+                                            <button class="addCommentBtn">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                        ;
+
+                        const addCommentBtn = addComment.querySelector(".addCommentBtn");
+                        
+
+                        addCommentBtn.addEventListener("click", async (e) => {
+                            e.stopPropagation();
+
+                            const commentText = addComment.querySelector(".commentInput").value;
+
+                            if(!commentText) return;
+
+                            try {
+                                const res = await fetch(`http://localhost:5000/api/post/${post._id}/add-comment`, {
+                                    method: "POST",
+                                    headers: { 
+                                        "Content-Type": "application/json",
+                                        "Authorization": `Bearer ${token}` 
+                                    },
+                                    body: JSON.stringify({ text: commentText })
+                                });
+
+                                if(!res) { throw new Error("Unable to write comment!") };
+
+                                console.log("Done");
+                                
+                                addComment.querySelector(".commentInput").value = "";
+
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        })
+                    
+
+                        container.appendChild(addComment);
+                    
+                    });
+
+                    const likeBtn = container.querySelector(".likeBtn");
+                    
+                    let liked = false;
+
+                    likeBtn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const heartIcon = container.querySelector(".heart");
+                        liked = !liked;
+
+                        if(liked) {
+                            heartIcon.src = "../img/heart_filled.svg";
+                        } else {
+                            heartIcon.src = "../img/heart_icon.svg";
                         }
                     });
 
-                    addComment.innerHTML = 
-                        `
-                            <div class="popupBox">
-                                <div id="post">
-                                    <div class="top">
-                                        <p id="author"><strong>${post.author_id.username}</strong></p>
-                                        <p>${post.content}</p>
-                                    </div>
-
-                                    <div class="bottom">
-                                        <input type="text" placeholder="Write a comment..." class="commentInput">
-                                        <button class="addCommentBtn">Send</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `
-                    ;
-
-                    const addCommentBtn = addComment.querySelector(".addCommentBtn");
-                    
-
-                    addCommentBtn.addEventListener("click", async (e) => {
-                        e.stopPropagation();
-
-                        const commentText = addComment.querySelector(".commentInput").value;
-
-                        if(!commentText) return;
-
-                        try {
-                            const res = await fetch(`http://localhost:5000/api/post/${post._id}/add-comment`, {
-                                method: "POST",
-                                headers: { 
-                                    "Content-Type": "application/json",
-                                    "Authorization": `Bearer ${token}` 
-                                },
-                                body: JSON.stringify({ text: commentText })
-                            });
-
-                            if(!res) { throw new Error("Unable to write comment!") };
-
-                            console.log("Done");
-                            
-                            addComment.querySelector(".commentInput").value = "";
-
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    })
-                   
-
-                    container.appendChild(addComment);
-                
+                    homepage.appendChild(container);
                 });
-
-                const likeBtn = container.querySelector(".likeBtn");
-                
-                let liked = false;
-
-                likeBtn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const heartIcon = container.querySelector(".heart");
-                    liked = !liked;
-
-                    if(liked) {
-                        heartIcon.src = "../img/heart_filled.svg";
-                    } else {
-                        heartIcon.src = "../img/heart_icon.svg";
-                    }
-                });
-
-                homepage.appendChild(container);
-            });
-        
+            }
         } catch (error) {
             console.log(error);
 

@@ -59,7 +59,7 @@ const login = asyncHandler(async (req, res) => {
             }
         }, process.env.ACCESS_TOKEN, { expiresIn: "60m" });
 
-        res.status(200).json({ accessToken, user: { id: user.id, username: user.usename, email: user.email } });
+        res.status(200).json({ accessToken, user: { id: user.id, username: user.username, email: user.email } });
     } else {
         res.status(401);
 
@@ -68,7 +68,8 @@ const login = asyncHandler(async (req, res) => {
 });
 
 const currentUser = asyncHandler(async (req, res) => {
-    res.json(req.user);
+    const user = await User.findById(req.user.id);
+    res.json(user);
 });
 
 module.exports = { register, login, currentUser }

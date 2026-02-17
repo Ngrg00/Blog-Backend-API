@@ -20,7 +20,7 @@ const userModel = mongoose.Schema(
     }, 
 
     {
-        timpestamps: true
+        timestamps: true
     }
 );
 

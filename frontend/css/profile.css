@@ -1,17 +1,115 @@
 body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     margin-top: 60px;
 }
 
+p {
+    font-family: Arial;
+    font-size: 18px;
+}
 .profile {
-    border: 1px solid black;
-    width: 800px;
+    flex: 1;
+    max-width: 800px;
+    border: 1px solid lightgrey;
+    padding-bottom: 20px;
+}
+
+.profileTop {
+    border: 1px solid lightgrey;
     height: 200px;
 }
 
-.userProfile {
+.profileBottom {
+    position: relative;
+    padding: 50px 20px 10px 20px;
+}
+
+.author_name {
+    font-size: 26px;
+}
+
+.editProfile {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    width: 100px;
+    height: 30px;
     border: 1px solid black;
+    border-radius: 50px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.post {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid lightgrey;
+    padding: 10px 30px;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    margin: 0 30px;
+    margin-bottom: 20px;
+}
+
+.top p {
+    font-size: 16px;
+}
+
+.top {
+    flex: 1;
+}
+
+.bottom {
+    position: relative;
+    width: 50px;
+}
+
+.postOptionBtn {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 30px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 100px;
+    background-color: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.postOptionBtn:hover {
+    background-color: lightgrey;
+}
+
+.postOptionBtn:active {
+    background-color: rgb(235, 232, 232);
+}
+
+.options {
+    position: absolute;
+    display: block;
+    right: 30px;
+    border: 1px solid lightgrey;
+    background-color: white;
+    width: 100px;
+    padding: 10px;
+}
+
+.options p {
+    font-size: 14px;
+    margin: 0;
+    margin-top: 6px;
+    padding: 6px;
+}
+
+.options p:hover {
+    background-color: lightgrey;
+}
+
+.hidden {
+    display: none;
 }
