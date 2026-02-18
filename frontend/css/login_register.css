@@ -1,0 +1,64 @@
+html, body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: rgb(245, 244, 244);
+}
+
+p {
+    font-family: Arial;
+}
+
+.loginForm, .registerForm {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.heading {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 60px 0;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.loginForm input, .registerForm input {
+    flex: 1;
+    font-size: 20px;
+    padding: 20px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+.loginForm button, .registerForm button {
+    font-size: 20px;
+    padding: 20px;
+    border: none;
+    background-color: rgb(45, 94, 255);
+    color: white;
+    margin-bottom: 100px;
+    cursor: pointer;
+}
+
+.signUp {
+    display: inline;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    color: grey;
+} 
+
+a {
+    display: inline;
+    color: blue;
+    margin-left: auto;
+    margin-right: auto;
+}

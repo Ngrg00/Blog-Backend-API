@@ -12,6 +12,7 @@
     background-color: white;
     height: 60px;
     border-bottom: 1px solid lightgrey;
+    font-family: Arial;
 }
 
 .left {
@@ -53,4 +54,17 @@
     height: 30px;
     margin-right: 10px;
     cursor: pointer;
+}
+
+.logOut {
+    padding: 10px;
+    margin-right: 10px;
+    color: white;
+    background-color: red;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.logOut:active {
+    background-color: rgb(255, 85, 85);
 }

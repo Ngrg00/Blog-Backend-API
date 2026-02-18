@@ -11,11 +11,14 @@ p {
     font-size: 18px;
     white-space: pre-line;
 }
+
 .profile {
     flex: 1;
     max-width: 800px;
     border: 1px solid lightgrey;
     padding-bottom: 20px;
+    background-color: white;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.2);
 }
 
 .profileTop {

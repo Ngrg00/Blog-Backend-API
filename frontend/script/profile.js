@@ -11,6 +11,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    const logout = document.querySelector(".logOut");
+
+    
+    logout.addEventListener("click", () => {
+        window.alert("Goodbye!");
+
+        sessionStorage.removeItem("token");
+        window.location.href = "./login.html";
+    })
+
     try {
         const userRes = await fetch("http://localhost:5000/api/user/current", 
             { headers: {"Authorization": `Bearer ${token}`} }
