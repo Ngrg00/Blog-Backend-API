@@ -28,6 +28,20 @@ const getMyPosts = asyncHandler(async (req, res) => {
     res.status(200).json(posts);
 });
 
+const getUserPost = asyncHandler(async (req, res) => {
+    const posts = await Post.find({ author_id: req.params.id })
+        .populate("author_id", "username")
+        .populate({
+            path: "comments",
+            populate: { path: "author_id", select: "username" },
+            options: { sort: { createdAt: -1} }
+        })
+        .sort({ createdAt: -1 })
+    ;
+
+    res.status(200).json(posts);
+});
+
 const createPost = asyncHandler(async (req, res) => {
     const { content } = req.body;
 
@@ -115,4 +129,4 @@ const deletePost = asyncHandler(async (req,res) => {
     res.status(200).json(post);
 });
 
-module.exports = { getPosts, getMyPosts, createPost, getPost, editPost, deletePost }
+module.exports = { getPosts, getMyPosts, getUserPost, createPost, getPost, editPost, deletePost }

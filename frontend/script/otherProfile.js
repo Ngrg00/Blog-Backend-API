@@ -1,0 +1,96 @@
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const profile = document.querySelector(".profile");
+
+    if(!profile) return;
+
+    const token = sessionStorage.getItem("token");
+
+    if(!token) {
+        window.location.href = "./login.html";
+
+        return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("id");
+
+    try {
+        const userRes = await fetch(`http://localhost:5000/api/user/${userId}/`,
+            { headers: {"Authorization": `Bearer ${token}`} }
+        );
+
+        const user = await userRes.json();
+
+        const date = new Date(user.createdAt).toLocaleDateString("en-GB", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+        const profile = document.querySelector(".profile");
+
+        const profileTop = document.createElement("div");
+        profileTop.className = "profileTop";
+
+        const profileBottom = document.createElement("div");
+        profileBottom.className = "profileBottom";
+        profileBottom.innerHTML = 
+            `
+                <p class="author_name"><strong>${user.username}</strong></p>
+                <p><small>Joined ${date}</small></p><br>
+                <p><small>Post:</small></p>
+            `
+        ;
+
+        const displayPost = async () => {
+            const postsRes = await fetch(`http://localhost:5000/api/post/${userId}/post`,
+                { headers: {"Authorization": `Bearer ${token}`} }
+            );
+
+            if(!postsRes.ok) { throw new Error("Token is invalid or expired.") };
+
+            const posts = await postsRes.json();
+
+            profile.innerHTML = "";
+            profile.appendChild(profileTop);
+            profile.appendChild(profileBottom);
+
+            if(posts.length === 0) {
+                const container = document.createElement("div");
+                container.className = "post";
+
+                container.innerHTML = "No post!";
+
+                profile.appendChild(container);
+            } else {
+                posts.forEach(post => {
+                    const date = new Date(post.createdAt).toLocaleDateString();
+                    const time = new Date(post.createdAt).toLocaleTimeString();
+
+                    const container = document.createElement("div");
+                    container.className = "post";
+
+                    container.addEventListener("click", () => {
+                        window.location.href = `./postPage.html?id=${post._id}`;
+                    })
+                    
+                    container.innerHTML = 
+                    `   
+                        <div class="top">
+                            <p id="author"><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                            <p class="postContent">${post.content}</p>
+                        </div>
+                    `;
+
+                    profile.appendChild(container);
+                });
+            }
+            
+        }
+
+        displayPost();
+    } catch (error) {
+        console.log(error);
+    }
+})

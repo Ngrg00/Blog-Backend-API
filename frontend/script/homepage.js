@@ -25,6 +25,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         homepage.appendChild(addPost);
 
         try {
+            const resUser = await fetch("http://localhost:5000/api/user/current", 
+                { headers: {"Authorization": `Bearer ${token}` } 
+            });
+
+            if(!resUser.ok) {
+                throw new Error("Token is invalid or expired.");
+            }
+
+            const user = await resUser.json();
+
+            //window.alert(`Welcome ${user.username}`);
+
             const resPosts = await fetch("http://localhost:5000/api/post", 
                 { headers: {"Authorization": `Bearer ${token}`} }
             );
@@ -57,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     container.innerHTML = 
                     `   
                         <div class="top">
-                            <p id="author"><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                            <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
                             <p>${post.content}</p>
                         </div>
                         <div class="bottom">
@@ -65,6 +77,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <button class="likeBtn"><img src="../img/heart_icon.svg" class="heart"></button>
                         </div>
                     `;
+
+                    const otherProfile = container.querySelector(".author");
+
+                    otherProfile.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if(user._id === post.author_id._id) {
+                            window.location.href = "./profile.html";
+                        } else {
+                            window.location.href = `./otherProfile.html?id=${post.author_id._id}`;
+                        }
+                        
+                    });
 
                     const commentBtn = container.querySelector(".commentBtn");
 
@@ -124,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                     body: JSON.stringify({ text: commentText })
                                 });
 
-                                if(!res) { throw new Error("Unable to write comment!") };
+                                if(!res.ok) { throw new Error("Unable to write comment!") };
 
                                 console.log("Done");
                                 
@@ -171,17 +197,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const resUser = await fetch("http://localhost:5000/api/user/current", 
-            { headers: {"Authorization": `Bearer ${token}` } 
-        });
-
-        if(!resUser.ok) {
-            throw new Error("Token is invalid or expired.");
-        }
-
-        const user = await resUser.json();
-
-        //window.alert(`Welcome ${user.username}`)
+        
     } catch (error) {
         console.log(error);
 

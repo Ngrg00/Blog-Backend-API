@@ -52,8 +52,6 @@ p {
     background-color: rgb(105, 118, 214);
 }
 
-
-
 .homepage {
     width: 800px;
 }
@@ -66,6 +64,10 @@ p {
     cursor: pointer;
     color: black;
     text-decoration: none;
+}
+
+.authorName:hover {
+    border-bottom: 1px solid black;
 }
 
 .bottom {

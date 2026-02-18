@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ;
 
         const displayPost = async () => {
-            const postsRes = await fetch ("http://localhost:5000/api/post/me", 
+            const postsRes = await fetch (`http://localhost:5000/api/post/me`, 
                 { headers: {"Authorization": `Bearer ${token}`} }
             );
 
