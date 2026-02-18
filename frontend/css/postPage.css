@@ -61,3 +61,7 @@ p {
 .addCommentBtn:hover {
     border-radius: 0;
 }
+
+.authorName:hover {
+    border-bottom: 1px solid black;
+}

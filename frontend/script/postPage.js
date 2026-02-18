@@ -14,6 +14,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const loadPost = async () => {
         try {
+            const resUser = await fetch("http://localhost:5000/api/user/current", 
+                { headers: {"Authorization": `Bearer ${token}` } 
+            });
+
+            if(!resUser.ok) {
+                throw new Error("Token is invalid or expired.");
+            }
+
+            const user = await resUser.json();
+
             const res = await fetch(`http://localhost:5000/api/post/${postId}`, 
                 { headers: {"Authorization": `Bearer ${token}`} }
             );
@@ -27,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             postDisplay.innerHTML = 
                 `
-                    <p><strong>${post.author_id.username}</strong> - <small>${date} ${time}</p>
+                    <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</p>
                     <p>${post.content}</p><br>
                 `
             ;
@@ -52,14 +62,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     commentDisplay.innerHTML = 
                         `   
-                            <p><strong>${c.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                            <p class="author"><strong class="authorName">${c.author_id.username}</strong> - <small>${date} ${time}</small></p>
                             <p>${c.text}</p>
                         `
                     ;
 
+                    const otherProfile = commentDisplay.querySelector(".author");
+
+                    otherProfile.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if(user._id === c.author_id._id) {
+                            window.location.href = "./profile.html";
+                        } else {
+                            window.location.href = `./otherProfile.html?id=${c.author_id._id}`;
+                        }
+                        
+                    });
+
                     postDisplay.appendChild(commentDisplay);
                 });
             }
+
+            const otherProfile = document.querySelector(".author");
+
+            otherProfile.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if(user._id === post.author_id._id) {
+                    window.location.href = "./profile.html";
+                } else {
+                    window.location.href = `./otherProfile.html?id=${post.author_id._id}`;
+                }
+                
+            });
 
             const commentInput = document.createElement("div");
             commentInput.className = "commentBottom";
