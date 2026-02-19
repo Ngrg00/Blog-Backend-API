@@ -73,9 +73,20 @@ if(loginForm) {
                 throw new Error(data.message);
             }
 
-            sessionStorage.setItem("token", data.accessToken);
+            const resUser = await fetch("http://localhost:5000/api/user/current", 
+                { headers: {"Authorization": `Bearer ${data.accessToken}` } 
+            });
 
-            console.log("User logged");
+            if(!resUser.ok) {
+                throw new Error("Token is invalid or expired.");
+            }
+
+            const user = await resUser.json();
+
+            window.alert(`Welcome ${user.username}`);
+
+
+            sessionStorage.setItem("token", data.accessToken);
 
             window.location.href = "./homepage.html";
         } catch (error) {

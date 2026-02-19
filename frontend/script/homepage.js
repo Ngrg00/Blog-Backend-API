@@ -11,6 +11,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    const resUser = await fetch("http://localhost:5000/api/user/current", 
+        { headers: {"Authorization": `Bearer ${token}` } 
+    });
+
+    if(!resUser.ok) {
+        throw new Error("Token is invalid or expired.");
+    }
+
+    const user = await resUser.json();
+
     const textarea = document.querySelector(".addPost textarea");
 
     textarea.addEventListener("input", () => {
@@ -25,18 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         homepage.appendChild(addPost);
 
         try {
-            const resUser = await fetch("http://localhost:5000/api/user/current", 
-                { headers: {"Authorization": `Bearer ${token}` } 
-            });
-
-            if(!resUser.ok) {
-                throw new Error("Token is invalid or expired.");
-            }
-
-            const user = await resUser.json();
-
-            //window.alert(`Welcome ${user.username}`);
-
             const resPosts = await fetch("http://localhost:5000/api/post", 
                 { headers: {"Authorization": `Bearer ${token}`} }
             );

@@ -64,6 +64,15 @@ p {
     border-radius: 0;
 }
 
+.author {
+    font-size: 16px;
+    color: gray;
+}
+.authorName {
+    font-size: 24px;
+    color: black;
+}
+
 .authorName:hover {
     border-bottom: 1px solid black;
 }

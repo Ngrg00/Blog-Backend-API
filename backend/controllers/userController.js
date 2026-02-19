@@ -73,7 +73,7 @@ const currentUser = asyncHandler(async (req, res) => {
 });
 
 const getUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id).select("-password");
+    const user = await User.findById(req.params.id).select("username");
 
     if(!user) {
         res.status(404);
@@ -84,4 +84,20 @@ const getUser = asyncHandler(async (req, res) => {
     res.json(user);
 });
 
-module.exports = { register, login, currentUser, getUser }
+const searchUser = asyncHandler(async (req, res) => {
+    const keyword = req.query.q; 
+
+    if(!keyword) {
+        return res.json([]);
+    }
+
+    const user = await User.find(
+        { username: 
+            { $regex: `^${keyword}`, $options: "i" }
+        }
+    );
+
+    res.json(user);
+})
+
+module.exports = { register, login, currentUser, getUser, searchUser }

@@ -25,6 +25,8 @@
 .middle {
     position: relative;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 1;
     max-width: 600px;
 }
@@ -39,15 +41,41 @@
 
 }
 
-.middle button {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    width: 30px;
+.cancel {
+    display: none;
+    margin-left: -40px;
     height: 30px;
+    width: 30px;
+    border: none;
     border-radius: 50px;
-    border: 1px solid black;
+    background-color: transparent;
     cursor: pointer;
+}
+
+.cancel:hover {
+    border: 1px solid black;
+}
+
+.searchResult {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid lightgray;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    padding: 10px;
+}
+
+.searchResult div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.searchResult div:hover {
+    background-color: lightgrey;
 }
 
 .right img {

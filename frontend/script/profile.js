@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const logout = document.querySelector(".logOut");
 
-    
+
     logout.addEventListener("click", () => {
         window.alert("Goodbye!");
 
@@ -48,8 +48,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         profileBottom.innerHTML = 
             `
                 <button class="editProfile">Edit profile</button>
-                <p class="author_name"><strong>${user.username}</strong></p>
-                <p><small>Joined ${date}</small></p><br>
+                <p><strong class="authorName">${user.username}</strong></p>
+                <p class="author"><small>Joined ${date}</small></p><br>
                 <p><small>Post:</small></p>
             `
         ;
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     container.innerHTML = 
                     `   
                         <div class="top">
-                            <p id="author"><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                            <p><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
                             <p class="postContent">${post.content}</p>
                         </div>
 

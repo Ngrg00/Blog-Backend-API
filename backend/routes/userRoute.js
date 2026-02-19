@@ -7,11 +7,13 @@ const {
     login,
     currentUser,
     getUser,
+    searchUser
 } = require("../controllers/userController.js");
 
 router.post("/register", register);
 router.post("/login", login);
 router.get("/current", validateToken, currentUser);
-router.get("/:id", getUser);
+router.get("/search", validateToken, searchUser);
+router.get("/:id", validateToken, getUser);
 
 module.exports = router;
