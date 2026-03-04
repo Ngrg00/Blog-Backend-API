@@ -23,11 +23,28 @@ p {
 .profileTop {
     border: 1px solid lightgrey;
     height: 200px;
+    background-color: lightgrey;
 }
 
 .profileBottom {
     position: relative;
     padding: 50px 20px 10px 20px;
+}
+
+.userIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -30%;
+    left: 50px;
+    width: 125px;
+    height: 125px;
+    font-size: 50px;
+    font-family: Arial;
+    border: 5px solid white;
+    border-radius: 50%;
+    color: white;
 }
 
 .author {

@@ -16,6 +16,19 @@ const userModel = mongoose.Schema(
         password: {
             type: String,
             required: [true, "Please enter a password."]
+        },
+
+        profileIcon: {
+            initial: { type: String, required: true },
+            color: { type: String, required: true }
+        }, 
+
+        profilePic: {
+            type: String
+        }, 
+
+        profileBackground: {
+            type: String
         }
     }, 
 

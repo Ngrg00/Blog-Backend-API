@@ -23,9 +23,15 @@ p {
 
 .profileTop {
     border: 1px solid lightgrey;
-    height: 200px;
+    height: 300px;
+    background-color: lightgrey;
 }
 
+.profileTop img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .profileBottom {
     position: relative;
     padding: 50px 20px 10px 20px;
@@ -45,15 +51,43 @@ p {
 }
 
 .editProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    top: 20px;
-    right: 10px;
-    width: 100px;
-    height: 30px;
+    top: 10px;
+    right: 40px;
+    font-family: Arial;
+    padding: 8px 10px;
     border: 1px solid black;
     border-radius: 50px;
     background-color: transparent;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.userIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -30%;
+    left: 5%;
+    width: 125px;
+    height: 125px;
+    font-size: 50px;
+    font-family: Arial;
+    border: 5px solid white;
+    border-radius: 50%;
+    color: white;
+}
+
+.userIcon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .post {
@@ -133,4 +167,135 @@ p {
     width: 100%;
     border: none;
     resize: none;
+}
+
+/* Edit profile popup */
+
+.editProfilePopup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.editProfileForm {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    padding: 5px;
+    max-width: 600px;
+    max-height: 70%;
+    overflow-y: auto;
+    overscroll-behavior: none;
+}
+
+
+.editHeader {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.profileBackground {
+    background-color: lightgrey;
+    width: 100%;
+    height: 200px;
+}
+
+.editProfileForm .bottom {
+    position: relative;
+    width: 100%;
+    padding-top: 50px;
+}
+
+.profileIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -12%;
+    left: 5%;
+    width: 90px;
+    height: 90px;
+    font-size: 20px;
+    font-family: Arial;
+    border: 5px solid white;
+    border-radius: 50%;
+    color: white;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border: 2px solid lightgrey;
+    border-radius: 10px;
+}
+
+.inputGroup label {
+    margin: 0;
+    font-family: Arial;
+    color: grey;
+}
+
+.inputGroup input:focus, textarea:focus{
+    outline: none;
+}
+
+.inputGroup:focus-within{
+    border-color: blue;
+}
+
+.inputGroup input, textarea {
+    border: none;
+    resize: none;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.backgroundPreview {
+    width: 100%;
+    height: 200px;
+    background: #ddd;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.profilePreview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -15%;
+    left: 30px;
+    border: 5px solid white;
+    cursor: pointer;
+}
+
+.uploadBtn {
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    border-radius: 20px;
+    cursor: pointer;
 }

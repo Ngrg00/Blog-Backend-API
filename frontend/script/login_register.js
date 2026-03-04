@@ -7,8 +7,14 @@ if(registerForm) {
 
         const username = document.querySelector(".username").value;
         const email = document.querySelector(".email").value;
-        const password = document.querySelector(".password")
-        const confirm = document.querySelector(".confirm")
+        const password = document.querySelector(".password");
+        const confirm = document.querySelector(".confirm");
+
+        const initial = username[0].toUpperCase();
+        const color = "#" + 
+            (Math.floor(Math.random() * 16777216))
+                .toString(16)
+                .padStart(6, "0");
 
         try {
             if(password.value !== confirm.value) {
@@ -27,7 +33,7 @@ if(registerForm) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ username, email, password: password.value })
+                body: JSON.stringify({ username, email, password: password.value, profileIcon: { initial, color } })
             });
 
             const data = await res.json();
@@ -41,7 +47,7 @@ if(registerForm) {
             window.location.href = "./login.html";
 
         } catch (error) {
-            window.alert(`${error.message}`);
+            console.log(error);
         }
         
         
@@ -90,7 +96,7 @@ if(loginForm) {
 
             window.location.href = "./homepage.html";
         } catch (error) {
-            window.alert(error.message);
+            console.log(error);
         }
     });
 }

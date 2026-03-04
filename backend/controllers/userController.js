@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
 
 const register = asyncHandler(async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, profileIcon } = req.body;
 
     if(!username || !email || !password) {
         res.status(400);
@@ -26,7 +26,10 @@ const register = asyncHandler(async (req, res) => {
     const user = await User.create({
         username,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        profileIcon,
+        profilePic,
+        profileBackground
     });
 
     if(user) {
@@ -98,6 +101,26 @@ const searchUser = asyncHandler(async (req, res) => {
     );
 
     res.json(user);
+});
+
+const updateProfile = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+
+    if(!user) {
+        res.status(404);
+
+        throw new Error("User not found!");
+    }
+
+    if(req.body.username) user.username = req.body.username;
+    if(req.body.email) user.email = req.body.email;
+
+    if(req.files.profilePic) user.profilePic = req.files.profilePic[0].path;
+    if(req.files.profileBackground) user.profileBackground= req.files.profileBackground[0].path;
+
+    const updatedUser = await user.save();
+
+    res.status(200).json(updatedUser);
 })
 
-module.exports = { register, login, currentUser, getUser, searchUser }
+module.exports = { register, login, currentUser, getUser, searchUser, updateProfile }

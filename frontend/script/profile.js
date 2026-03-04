@@ -43,16 +43,135 @@ document.addEventListener("DOMContentLoaded", async () => {
         const profileTop = document.createElement("div");
         profileTop.className = "profileTop";
 
+        if(user.profileBackground) {
+            profileTop.innerHTML = `<img src="http://localhost:5000/${user.profileBackground}" />`
+        }
+
         const profileBottom = document.createElement("div");
         profileBottom.className = "profileBottom";
+
+        let icon;
+        if(user.profilePic) {
+            icon = `<img src="http://localhost:5000/${user.profilePic}" />`;
+        } else {
+            icon = user.profileIcon.initial;
+        }
+
         profileBottom.innerHTML = 
             `
                 <button class="editProfile">Edit profile</button>
+                <div class="userIcon">${icon}</div>
                 <p><strong class="authorName">${user.username}</strong></p>
                 <p class="author"><small>Joined ${date}</small></p><br>
                 <p><small>Post:</small></p>
             `
         ;
+
+        if(!user.profilePic) {
+            profileBottom.querySelector(".userIcon").style.backgroundColor = user.profileIcon.color;
+        } else {
+            profileBottom.querySelector(".userIcon").style.backgroundColor = "white";
+        }
+        
+
+        const editProfile = profileBottom.querySelector(".editProfile");
+        editProfile.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if(profileBottom.querySelector(".editProfilePopup")) { profileBottom.removeChild(".editProfilePopup") };
+
+            document.body.style.overflow = "hidden";
+
+            const editProfilePopup = document.createElement("div");
+            editProfilePopup.className = "editProfilePopup";
+            editProfilePopup.style.display = "flex";
+
+            editProfilePopup.innerHTML = 
+                `   
+                    
+                    <form class="editProfileForm" enctype="multipart/form-data">
+                        <div class="editHeader">
+                            <button class="closePopup">X</button>
+                            <p>Edit profile</p>
+                            <button type="submit">Save</button>
+                        </div>
+
+                        <div class="top">
+                            <input type="file" name="profileBackground" class="profileBackground">
+                        </div>
+                        
+                        <div class="bottom">
+                            <input type="file" name="profilePic" class="profileIcon">
+
+                            <div class="inputGroup">
+                                <label>Username</label>
+                                <input type="text" name="username">
+                            </div>
+                            <div class="inputGroup">
+                                <label>Bio</label>
+                                <textarea name="bio" maxlength="150"></textarea>
+                            </div>
+                            <div class="inputGroup">
+                                <label>Email</label>
+                                <input type="email" name="email">
+                            </div>
+                            <div class="inputGroup">
+                                <label>Password</label>
+                                <input type="password" name="password">
+                            </div>
+                            <div class="inputGroup">
+                                <label>Confirm password</label>
+                                <input type="password" name="confirmPass">
+                            </div>
+                        </div>
+                    </form>
+                `
+            ;
+
+            profileBottom.appendChild(editProfilePopup);
+
+            profileBottom.querySelector(".closePopup").addEventListener("click", () => {
+                editProfilePopup.remove();
+
+                document.body.style.overflow = "auto";
+            });
+
+            profileBottom.querySelector('input[name="username"]').value = user.username;
+            profileBottom.querySelector('input[name="email"]').value = user.email;
+
+            const editProfileForm = profileBottom.querySelector(".editProfileForm");
+
+            editProfileForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(editProfileForm);
+
+                try {
+                    const res = await fetch("http://localhost:5000/api/user/update",
+                        { 
+                            method: "PUT",
+                            headers: {"Authorization": `Bearer ${token}`},
+                            body: formData
+                        }
+                    );
+
+                    if(!res.ok) {
+                        throw new Error("Failed to update!");
+                    }
+
+                    const updatedUser = await res.json();
+
+                    editProfilePopup.remove();
+                    document.body.style.overflow = "auto";
+
+                    window.location.reload();
+
+                } catch (error) {
+                    
+                }
+            })
+        });
 
         const displayPost = async () => {
             const postsRes = await fetch (`http://localhost:5000/api/post/me`, 
@@ -195,6 +314,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         displayPost();
     } catch (error) {
-        console.log(error);
+        sessionStorage.removeItem("token");
+
+        window.location.href = "./login.html";
     }
 })

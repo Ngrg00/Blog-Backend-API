@@ -234,7 +234,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.querySelector(".addPostInput").value = "";
 
         } catch (error) {
-            
+            sessionStorage.removeItem("token");
+            window.location.href = "./login.html";
         }
     });
 });

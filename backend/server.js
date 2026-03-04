@@ -16,6 +16,7 @@ app.use(express.json());
 app.use("/api/user", require("./routes/userRoute.js"));
 app.use("/api/post", require("./routes/postRoute.js"));
 app.use("/api/post", require("./routes/commentRoute.js"));
+app.use("/uploads", express.static("uploads"));
 app.use(errorHandler);
 
 app.listen(port, () => {
