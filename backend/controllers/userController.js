@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 const User = require("../models/user.js");
 
@@ -27,9 +28,10 @@ const register = asyncHandler(async (req, res) => {
         username,
         email,
         password: hashedPassword,
+        bio,
         profileIcon,
         profilePic,
-        profileBackground
+        profileBackgroundß
     });
 
     if(user) {
@@ -115,8 +117,29 @@ const updateProfile = asyncHandler(async (req, res) => {
     if(req.body.username) user.username = req.body.username;
     if(req.body.email) user.email = req.body.email;
 
-    if(req.files.profilePic) user.profilePic = req.files.profilePic[0].path;
-    if(req.files.profileBackground) user.profileBackground= req.files.profileBackground[0].path;
+    if(req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        
+        user.password = hashedPassword;
+    }
+
+    if(req.body.bio) user.bio = req.body.bio;
+
+    if(req.files.profilePic) {
+        if (user.profilePic && fs.existsSync(user.profilePic)) {
+            fs.unlinkSync(user.profilePic);
+        }
+
+        user.profilePic = req.files.profilePic[0].path;
+    }
+       
+    if(req.files.profileBackground) {
+        if (user.profileBackground && fs.existsSync(user.profileBackground)) {
+            fs.unlinkSync(user.profilePic);
+        }
+
+        user.profileBackground= req.files.profileBackground[0].path;
+    }
 
     const updatedUser = await user.save();
 

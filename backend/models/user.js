@@ -18,6 +18,10 @@ const userModel = mongoose.Schema(
             required: [true, "Please enter a password."]
         },
 
+        bio: {
+            type: String
+        },
+
         profileIcon: {
             initial: { type: String, required: true },
             color: { type: String, required: true }

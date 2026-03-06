@@ -90,6 +90,11 @@ p {
     border-radius: 50%;
 }
 
+.bio {
+    font-size: 14px;
+    font-family: Arial;
+}
+
 .post {
     display: flex;
     flex-direction: row;
@@ -210,6 +215,15 @@ p {
     background-color: lightgrey;
     width: 100%;
     height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+}
+
+.profileBackground::after {
+    background: rgba(0,0,0,0.8);
 }
 
 .editProfileForm .bottom {
@@ -218,6 +232,9 @@ p {
     padding-top: 50px;
 }
 
+.editImg {
+    width: 30px;
+}
 .profileIcon {
     display: flex;
     justify-content: center;
@@ -232,6 +249,7 @@ p {
     border: 5px solid white;
     border-radius: 50%;
     color: white;
+    cursor: pointer;
 }
 
 .inputGroup {
@@ -261,6 +279,7 @@ p {
     border: none;
     resize: none;
     font-size: 16px;
+    font-family: Arial;
     padding: 5px;
 }
 

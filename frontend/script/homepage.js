@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     getAllPost();
-
+    
     const postBtn = document.querySelector(".postBtn");
 
     postBtn.addEventListener("click", async (e) => {
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 throw new Error("Failed to create post");
             }
 
-            getAllPost();
+            window.location.reload();
 
             console.log("Done");
             document.querySelector(".addPostInput").value = "";

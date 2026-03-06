@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <button class="editProfile">Edit profile</button>
                 <div class="userIcon">${icon}</div>
                 <p><strong class="authorName">${user.username}</strong></p>
+                <p class="bio">${user.bio}</p>
                 <p class="author"><small>Joined ${date}</small></p><br>
                 <p><small>Post:</small></p>
             `
@@ -98,11 +99,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </div>
 
                         <div class="top">
-                            <input type="file" name="profileBackground" class="profileBackground">
+                            <label class="profileBackground">
+                                <img src="../img/edit.svg" class="editImg">
+                                <input type="file" name="profileBackground" hidden>
+                            </label>
                         </div>
                         
                         <div class="bottom">
-                            <input type="file" name="profilePic" class="profileIcon">
+                            <label class="profileIcon">
+                                <img src="../img/edit.svg" class="editImg">
+                                <input type="file" name="profilePic" hidden>
+                            </label>
 
                             <div class="inputGroup">
                                 <label>Username</label>
@@ -116,11 +123,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <label>Email</label>
                                 <input type="email" name="email">
                             </div>
-                            <div class="inputGroup">
+                            <div class="inputGroup password">
                                 <label>Password</label>
                                 <input type="password" name="password">
                             </div>
-                            <div class="inputGroup">
+                            <div class="inputGroup confirmPass">
                                 <label>Confirm password</label>
                                 <input type="password" name="confirmPass">
                             </div>
@@ -139,11 +146,80 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             profileBottom.querySelector('input[name="username"]').value = user.username;
             profileBottom.querySelector('input[name="email"]').value = user.email;
+            profileBottom.querySelector('textarea[name="bio"]').value = user.bio;
+            
+            const backgroundPreview = profileBottom.querySelector('.profileBackground');
+
+            if(user.profileBackground) {
+                backgroundPreview.style.backgroundImage = `url(http://localhost:5000/${user.profileBackground})`;
+                backgroundPreview.style.backgroundSize = "cover";
+                backgroundPreview.style.backgroundPosition = "center";
+                backgroundPreview.style.opacity = "0.6";
+            }
+
+            backgroundPreview.addEventListener("change", () => {
+                const file = profileBottom.querySelector('input[name="profileBackground"]').files[0];
+
+                if(file) {
+                    const url = URL.createObjectURL(file);
+
+                    backgroundPreview.style.backgroundImage = `url(${url})`;
+                    backgroundPreview.style.backgroundSize = "cover";
+                    backgroundPreview.style.backgroundPosition = "center";
+                    backgroundPreview.style.opacity = "0.6";
+                }
+            })
+
+            const profilePicPreview = profileBottom.querySelector('.profileIcon');
+
+            if(user.profileIcon) {
+                profilePicPreview.style.backgroundImage = `
+                    url(http://localhost:5000/${user.profilePic})`;
+                profilePicPreview.style.backgroundSize = "cover";
+                profilePicPreview.style.backgroundPosition = "center";
+                profilePicPreview.style.backgroundColor = "white"
+            }
+
+            profilePicPreview.addEventListener("change", () => {
+                const file = profileBottom.querySelector('input[name="profilePic"]').files[0];
+
+                if(file) {
+                    const url = URL.createObjectURL(file);
+
+                    profilePicPreview.style.backgroundImage = `url(${url})`;
+                    profilePicPreview.style.backgroundSize = "cover";
+                    profilePicPreview.style.backgroundPosition = "center";
+                    profilePicPreview.style.backgroundColor = "white"
+                }
+            })
 
             const editProfileForm = profileBottom.querySelector(".editProfileForm");
 
             editProfileForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
+
+                const password = profileBottom.querySelector('input[name="password"]');
+                const confirmPass = profileBottom.querySelector('input[name="confirmPass"]');
+
+                if(password.value || confirmPass.value) {
+                    if(!password.value || !confirmPass.value) {
+                        profileBottom.querySelector(".password").style.border = "1px solid red";
+                        profileBottom.querySelector(".confirmPass").style.border = "1px solid red";
+
+                        window.alert("Both password fields must be required!");
+                        
+                        return;
+                    }
+                }
+
+                if(password.value !== confirmPass.value) {
+                    profileBottom.querySelector(".password").style.border = "1px solid red";
+                    profileBottom.querySelector(".confirmPass").style.border = "1px solid red";
+
+                    window.alert("Passwords do not match!");
+
+                    return;
+                }
 
                 const formData = new FormData(editProfileForm);
 
@@ -159,8 +235,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     if(!res.ok) {
                         throw new Error("Failed to update!");
                     }
-
-                    const updatedUser = await res.json();
 
                     editProfilePopup.remove();
                     document.body.style.overflow = "auto";
