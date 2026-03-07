@@ -18,6 +18,7 @@
 .left {
     border: 1px solid black;
     margin-left: 10px;
+    margin-right: 20px;
     padding: 10px;
     text-decoration: none;
 }
@@ -79,12 +80,14 @@
 
 .right img {
     height: 30px;
+    margin-left: 20px;
     margin-right: 10px;
     cursor: pointer;
 }
 
 .logOut {
     padding: 10px;
+    margin-left: 20px;
     margin-right: 10px;
     color: white;
     background-color: red;

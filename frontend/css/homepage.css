@@ -9,7 +9,7 @@ body {
 p {
     font-family: Arial;
     font-size: 20px;
-    margin-top: 6px;
+    margin: 0;
     white-space: pre-line;
 }
 
@@ -53,13 +53,16 @@ p {
 }
 
 .homepage {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .post {
     display: flex;
+    flex: 1;
     flex-direction: column;
+    align-items: top;
     background-color: white;
     border: 1px solid lightgrey;
     padding: 10px 30px;
@@ -73,12 +76,48 @@ p {
     color: gray;
 }
 .authorName {
-    font-size: 24px;
+    font-size: 28px;
     color: black;
 }
 
 .authorName:hover {
     border-bottom: 1px solid black;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.top img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid lightgrey;
+    border-radius: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.top .userPost {
+    display: flex;
+    flex-direction: column;
+}
+
+.profileIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: Arial;
+    width: 50px;
+    height: 50px;
+    border: 2px solid lightgrey;
+    border-radius: 50px;
+    margin-right: 10px;
+    margin-top: 5px;
 }
 
 .bottom {
@@ -122,6 +161,7 @@ p {
 }
 
 .popupBox {
+    position: relative;
     background: white;
     padding: 30px;
     border-radius: 20px;
@@ -136,14 +176,14 @@ p {
     height: 100%;
 }
 
-.popupBox #post .top {
-    height: 96%;
-}
-
 .popupBox #post .bottom { 
     margin-top: auto;
     display: flex;
     flex: 1;
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    right: 18px;
     justify-content: center;
     align-items: center;
     width: auto;

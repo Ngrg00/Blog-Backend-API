@@ -4,10 +4,10 @@ const Comment = require("../models/comment.js");
 
 const getPosts = asyncHandler(async (req, res) => {
     const posts = await Post.find()
-        .populate("author_id", "username")
+        .populate("author_id", "username profilePic profileIcon")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" },
+            populate: { path: "author_id", select: "username profilePic profileIcon" },
             options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 });
@@ -17,10 +17,10 @@ const getPosts = asyncHandler(async (req, res) => {
 
 const getMyPosts = asyncHandler(async (req, res) => {
     const posts = await Post.find({ author_id: req.user.id })
-        .populate("author_id", "username")
+        .populate("author_id", "username profilePic profileIcon")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" },
+            populate: { path: "author_id", select: "username profilePic profileIcon" },
             options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 });
@@ -30,10 +30,10 @@ const getMyPosts = asyncHandler(async (req, res) => {
 
 const getUserPost = asyncHandler(async (req, res) => {
     const posts = await Post.find({ author_id: req.params.id })
-        .populate("author_id", "username")
+        .populate("author_id", "username profilePic profileIcon")
         .populate({
-            path: "comments",
-            populate: { path: "author_id", select: "username" },
+            path: "comments", 
+            populate: { path: "author_id", select: "username profilePic profileIcon" },
             options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 })
@@ -61,10 +61,10 @@ const createPost = asyncHandler(async (req, res) => {
 
 const getPost = asyncHandler(async (req, res) => {
     const post = await Post.findById(req.params.id)
-        .populate("author_id", "username")
+        .populate("author_id", "username profilePic profileIcon")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" },
+            populate: { path: "author_id", select: "username profilePic profileIcon" },
             options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 });
@@ -98,10 +98,10 @@ const editPost = asyncHandler(async (req,res) => {
         req.body,
         { new: true }
     )
-        .populate("author_id", "username")
+        .populate("author_id", "username profilePic profileIcon")
         .populate({
             path: "comments",
-            populate: { path: "author_id", select: "username" },
+            populate: { path: "author_id", select: "username profilePic profileIcon" },
             options: { sort: { createdAt: -1} }
         })
         .sort({ createdAt: -1 }); 

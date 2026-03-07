@@ -35,10 +35,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             const date = new Date(post.createdAt).toLocaleDateString();
             const time = new Date(post.createdAt).toLocaleTimeString();
 
+            let icon;
+                
+            if(post.author_id.profilePic) {
+                icon = `<img src="http://localhost:5000/${post.author_id.profilePic}"/>`
+            } else {
+                icon = 
+                `   
+                    <div class="profileIcon" style="background: ${post.author_id.profileIcon.color}">
+                        ${post.author_id.profileIcon.initial}
+                    </div>
+                `;
+            }
             postDisplay.innerHTML = 
                 `
-                    <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</p>
-                    <p>${post.content}</p><br>
+                    <div class="top">
+                        <div>
+                            ${icon}
+                        </div>
+                        <div class="userPost">
+                            <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                            <p>${post.content}</p>
+                        </div>
+                    </div>
                 `
             ;
 
@@ -60,10 +79,31 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const date = new Date(c.createdAt).toLocaleDateString();
                     const time = new Date(c.createdAt).toLocaleTimeString();
 
+                    let icon;
+                
+                    if(c.author_id.profilePic) {
+                        icon = `<img src="http://localhost:5000/${c.author_id.profilePic}"/>`
+                    } else {
+                        icon = 
+                        `   
+                            <div class="profileIcon" style="background: ${c.author_id.profileIcon.color}">
+                                ${c.author_id.profileIcon.initial}
+                            </div>
+                        `;
+                    }
+
                     commentDisplay.innerHTML = 
                         `   
-                            <p class="author"><strong class="authorName">${c.author_id.username}</strong> - <small>${date} ${time}</small></p>
-                            <p>${c.text}</p>
+                            <div class="top">
+                                <div>
+                                    ${icon}
+                                </div>
+                                <div class="userPost">
+                                    <p class="author"><strong class="authorName">${c.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                                    <p>${c.text}</p>
+                                </div>
+                            </div>
+                            
                         `
                     ;
 

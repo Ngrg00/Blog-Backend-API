@@ -6,7 +6,7 @@ const fs = require("fs");
 const User = require("../models/user.js");
 
 const register = asyncHandler(async (req, res) => {
-    const { username, email, password, profileIcon } = req.body;
+    const { username, email, password, bio, profileIcon, profilePic, profileBackground} = req.body;
 
     if(!username || !email || !password) {
         res.status(400);
@@ -31,7 +31,7 @@ const register = asyncHandler(async (req, res) => {
         bio,
         profileIcon,
         profilePic,
-        profileBackgroundß
+        profileBackground
     });
 
     if(user) {
@@ -123,7 +123,9 @@ const updateProfile = asyncHandler(async (req, res) => {
         user.password = hashedPassword;
     }
 
-    if(req.body.bio) user.bio = req.body.bio;
+    if(req.body.bio) { 
+        user.bio = req.body.bio;
+    }
 
     if(req.files.profilePic) {
         if (user.profilePic && fs.existsSync(user.profilePic)) {
@@ -135,7 +137,7 @@ const updateProfile = asyncHandler(async (req, res) => {
        
     if(req.files.profileBackground) {
         if (user.profileBackground && fs.existsSync(user.profileBackground)) {
-            fs.unlinkSync(user.profilePic);
+            fs.unlinkSync(user.profileBackground);
         }
 
         user.profileBackground= req.files.profileBackground[0].path;

@@ -54,6 +54,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                 homepage.appendChild(container);
             } else {
                 posts.forEach(post => {
+                    let icon;
+                    
+                    if(post.author_id.profilePic) {
+                        icon = `<img src="http://localhost:5000/${post.author_id.profilePic}"/>`
+                    } else {
+                        icon = 
+                        `   
+                            <div class="profileIcon" style="background: ${post.author_id.profileIcon.color}">
+                                ${post.author_id.profileIcon.initial}
+                            </div>
+                        `;
+                    }
+
                     const date = new Date(post.createdAt).toLocaleDateString();
                     const time = new Date(post.createdAt).toLocaleTimeString();
 
@@ -62,13 +75,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     container.addEventListener("click", () => {
                         window.location.href = `./postPage.html?id=${post._id}`;
-                    })
+                    });
                     
                     container.innerHTML = 
                     `   
                         <div class="top">
-                            <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
-                            <p>${post.content}</p>
+                            <div>
+                                ${icon}
+                            </div>
+                            <div class="userPost">
+                                <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                                <p>${post.content}</p>
+                            </div>
                         </div>
                         <div class="bottom">
                             <button class="commentBtn"><img src="../img/comment.svg"></button>
@@ -115,8 +133,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <div class="popupBox">
                                     <div id="post">
                                         <div class="top">
-                                            <p id="author"><strong>${post.author_id.username}</strong></p>
-                                            <p>${post.content}</p>
+                                            <div>
+                                                ${icon}
+                                            </div>
+                                            <div class="userPost">
+                                                <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                                                <p>${post.content}</p>
+                                            </div>
                                         </div>
 
                                         <div class="bottom">
@@ -194,17 +217,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    try {
-        
-    } catch (error) {
-        console.log(error);
-
-        sessionStorage.removeItem("token");
-        window.location.href = "./login.html";
-    }
-
     getAllPost();
-    
+
     const postBtn = document.querySelector(".postBtn");
 
     postBtn.addEventListener("click", async (e) => {

@@ -1,13 +1,32 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "./uploads");
+
+        const userId = req.user.id;
+
+        let folder = "./uploads";
+
+        if(file.fieldname === "profilePic") {
+            folder = `./uploads/users/${userId}/profilePics`;
+
+        } else if(file.fieldname === "profileBackground") {
+            folder = `./uploads/users/${userId}/profileBackground`;
+
+        } else if(file.fieldname === "post") {
+            folder = `./uploads/users/${userId}/posts`;
+
+        }
+
+        fs.mkdirSync(folder, { recursive: true });
+
+        cb(null, folder);
     },
 
     filename: (req, file, cb) => {
-        cb(null, file.filename + "-" + Date.now() + path.extname(file.originalname));
+        cb(null, Date.now() + path.extname(file.originalname));
     },
 });
 

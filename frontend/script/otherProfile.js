@@ -33,15 +33,37 @@ document.addEventListener("DOMContentLoaded", async () => {
         const profileTop = document.createElement("div");
         profileTop.className = "profileTop";
 
+        if(user.profileBackground) {
+            profileTop.innerHTML = `<img src="http://localhost:5000/${user.profileBackground}" />`
+        }
+
+        let icon;
+
+        if(user.profilePic) {
+            icon = `<img src="http://localhost:5000/${user.profilePic}" />`;
+        } else {
+            icon = user.profileIcon.initial;
+        }
+
+        const bio = user.bio ? user.bio : "";
+        
         const profileBottom = document.createElement("div");
         profileBottom.className = "profileBottom";
         profileBottom.innerHTML = 
             `
                 <p class="author_name"><strong>${user.username}</strong></p>
-                <p><small>Joined ${date}</small></p><br>
+                <div class="userIcon">${icon}</div>
+                <p class="bio">${bio}</p>
+                <p class="date"><small>Joined ${date}</small></p><br>
                 <p><small>Post:</small></p>
             `
         ;
+
+        if(!user.profilePic) {
+            profileBottom.querySelector(".userIcon").style.backgroundColor = user.profileIcon.color;
+        } else {
+            profileBottom.querySelector(".userIcon").style.backgroundColor = "white";
+        }
 
         const displayPost = async () => {
             const postsRes = await fetch(`http://localhost:5000/api/post/${userId}/post`,
