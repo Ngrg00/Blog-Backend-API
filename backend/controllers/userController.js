@@ -6,7 +6,9 @@ const fs = require("fs");
 const User = require("../models/user.js");
 
 const register = asyncHandler(async (req, res) => {
-    const { username, email, password, bio, profileIcon, profilePic, profileBackground} = req.body;
+    const { username, email, password, 
+            bio, profileIcon, profilePic, 
+            profileBackground} = req.body;
 
     if(!username || !email || !password) {
         res.status(400);

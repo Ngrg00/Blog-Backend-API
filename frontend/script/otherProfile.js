@@ -90,6 +90,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const date = new Date(post.createdAt).toLocaleDateString();
                     const time = new Date(post.createdAt).toLocaleTimeString();
 
+                    const imgs = (post.imgs || []).map(i => 
+                        `<div class="slide">
+                            <img src="http://localhost:5000/${i}">
+                        </div>`)
+                        .join("")
+                    ;
+                    
                     const container = document.createElement("div");
                     container.className = "post";
 
@@ -100,8 +107,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                     container.innerHTML = 
                     `   
                         <div class="top">
-                            <p id="author"><strong>${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
-                            <p class="postContent">${post.content}</p>
+                            <div class="profilePic">
+                                ${icon}
+                            </div>
+                            <div class="userPost">
+                                <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
+                                <p>${post.content}</p>
+                                <div class="postImgs">
+                                    ${imgs}
+                                </div>
+                            </div>
                         </div>
                     `;
 

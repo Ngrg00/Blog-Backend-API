@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Post = require("../models/post.js");
 const Comment = require("../models/comment.js");
+const fs = require("fs")
 
 const getPosts = asyncHandler(async (req, res) => {
     const posts = await Post.find()
@@ -42,7 +43,7 @@ const getUserPost = asyncHandler(async (req, res) => {
     res.status(200).json(posts);
 });
 
-const createPost = asyncHandler(async (req, res) => {
+const createPost = asyncHandler(async (req, res, next) => {
     const { content } = req.body;
 
     if(!content) {
@@ -52,11 +53,20 @@ const createPost = asyncHandler(async (req, res) => {
     }
 
     const post = await Post.create({
+        _id: req.postId,
         content,
         author_id: req.user.id,
+        imgs: []
     });
 
-    res.status(200).json(post);
+    if(req.files && req.files.length > 0) {
+        const images = req.files.map(f => f.path.replace(/\\/g, "/")) || [];
+
+        post.imgs = images;
+        await post.save();
+    }
+
+    res.status(201).json(post);
 });
 
 const getPost = asyncHandler(async (req, res) => {

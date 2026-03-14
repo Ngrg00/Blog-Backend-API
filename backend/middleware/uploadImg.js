@@ -3,10 +3,10 @@ const path = require("path");
 const fs = require("fs");
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: async (req, file, cb) => {
 
         const userId = req.user.id;
-
+        
         let folder = "./uploads";
 
         if(file.fieldname === "profilePic") {
@@ -15,9 +15,11 @@ const storage = multer.diskStorage({
         } else if(file.fieldname === "profileBackground") {
             folder = `./uploads/users/${userId}/profileBackground`;
 
-        } else if(file.fieldname === "post") {
-            folder = `./uploads/users/${userId}/posts`;
+        } else if(file.fieldname === "imgs") {
+            const postId = req.postId
 
+            folder = `./uploads/users/${userId}/posts/${postId}`;
+            
         }
 
         fs.mkdirSync(folder, { recursive: true });
@@ -26,7 +28,7 @@ const storage = multer.diskStorage({
     },
 
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
+        cb(null, Math.round(Math.random() * 1e9) + path.extname(file.originalname));
     },
 });
 
@@ -38,6 +40,6 @@ const filter = (req, file, cb) => {
     }
 }
 
-const upload = multer({ storage, filter });
+const upload = multer({ storage, fileFilter: filter });
 
 module.exports = upload;

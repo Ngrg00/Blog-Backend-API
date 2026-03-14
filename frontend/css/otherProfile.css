@@ -96,22 +96,68 @@ p {
 
 .post {
     display: flex;
-    flex-direction: row;
+    flex: 1;
+    flex-direction: column;
+    align-items: top;
+    background-color: white;
     border: 1px solid lightgrey;
-    padding: 10px 30px;
+    padding: 10px 70px 10px 10px;
+    margin: 0 20px 10px 20px;
     cursor: pointer;
     color: black;
     text-decoration: none;
-    margin: 0 30px;
-    margin-bottom: 20px;
 }
 
-.top p {
-    font-size: 16px;
+.top p{
+    margin: 0;
+    font-family: Arial;
 }
 
 .top {
-    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.top .userPost {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.postImgs {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    width: 100%;
+}
+
+.postImg {
+    width: 100%;
+    object-fit: cover;
+}
+
+.slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    margin-top: 20px;
+}
+
+.slide img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.profilePic img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid lightgrey;
+    border-radius: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-top: 5px;
 }
 
 .bottom {

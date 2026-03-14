@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const getAllPost = async () => {
 
         const addPost = document.querySelector(".addPost");
-        homepage.innerHTML = "";
-        homepage.appendChild(addPost);
+        // homepage.innerHTML = "";
+        // homepage.appendChild(addPost);
 
         try {
             const resPosts = await fetch("http://localhost:5000/api/post", 
@@ -61,11 +61,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                     } else {
                         icon = 
                         `   
-                            <div class="profileIcon" style="background: ${post.author_id.profileIcon.color}">
+                            <div class="profileIcon" 
+                                style="background: ${post.author_id.profileIcon.color}">
                                 ${post.author_id.profileIcon.initial}
                             </div>
                         `;
                     }
+
+                    const imgs = (post.imgs || []).map(i => 
+                        `<div class="slide">
+                            <img src="http://localhost:5000/${i}">
+                        </div>`)
+                        .join("")
+                    ;
 
                     const date = new Date(post.createdAt).toLocaleDateString();
                     const time = new Date(post.createdAt).toLocaleTimeString();
@@ -80,12 +88,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                     container.innerHTML = 
                     `   
                         <div class="top">
-                            <div>
+                            <div class="profilePic">
                                 ${icon}
                             </div>
                             <div class="userPost">
                                 <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
                                 <p>${post.content}</p>
+                                <div class="postImgs">
+                                    ${imgs}
+                                </div>
                             </div>
                         </div>
                         <div class="bottom">
@@ -133,12 +144,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <div class="popupBox">
                                     <div id="post">
                                         <div class="top">
-                                            <div>
+                                            <div class="profilePic">
                                                 ${icon}
                                             </div>
                                             <div class="userPost">
                                                 <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
                                                 <p>${post.content}</p>
+                                                <div class="postImgs">
+                                                    ${imgs}
+                                                </div>
                                             </div>
                                         </div>
 
@@ -211,31 +225,38 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (error) {
             console.log(error);
 
-            sessionStorage.removeItem("token");
-            window.location.href = "./login.html";
+            // sessionStorage.removeItem("token");
+            // window.location.href = "./login.html";
 
         }
     }
 
     getAllPost();
 
+    const addImg = document.querySelector(".addImg");
+    const imgInput = document.querySelector(".imgsPreveiw")
+    addImg.addEventListener("click", () => imgInput.click());
+
     const postBtn = document.querySelector(".postBtn");
 
-    postBtn.addEventListener("click", async (e) => {
+    const addPost = document.querySelector(".addPost");
+
+    addPost.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const content = document.querySelector(".addPostInput").value;
+        
+        const formData = new FormData(addPost);
 
-        if(!content) return;
-
+        // const content = document.querySelector(".addPostInput").value;
+        
         try {
             const res = await fetch("http://localhost:5000/api/post", {
                 method: "POST",
                 headers: { 
-                    "Content-Type": "application/json",
+                    // "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}` 
                 },
-                body: JSON.stringify({ content })
+                body: formData
             });
 
             if (!res.ok) {
@@ -248,8 +269,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.querySelector(".addPostInput").value = "";
 
         } catch (error) {
-            sessionStorage.removeItem("token");
-            window.location.href = "./login.html";
+            console.log(error);
+
+            // sessionStorage.removeItem("token");
+            // window.location.href = "./login.html";
         }
     });
 });

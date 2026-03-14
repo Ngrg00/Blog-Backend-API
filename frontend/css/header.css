@@ -13,6 +13,7 @@
     height: 60px;
     border-bottom: 1px solid lightgrey;
     font-family: Arial;
+    z-index: 9999;
 }
 
 .left {

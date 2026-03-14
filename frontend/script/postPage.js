@@ -47,15 +47,27 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
                 `;
             }
+
+            const imgs = (post.imgs || [])
+                .map(i => 
+                    `<div class="slide">
+                        <img src="http://localhost:5000/${i}">
+                    </div>`)
+                .join("")
+            ;
+
             postDisplay.innerHTML = 
                 `
                     <div class="top">
-                        <div>
+                        <div class="profilePic">
                             ${icon}
                         </div>
                         <div class="userPost">
                             <p class="author"><strong class="authorName">${post.author_id.username}</strong> - <small>${date} ${time}</small></p>
                             <p>${post.content}</p>
+                            <div class="postImgs">
+                                ${imgs}
+                            </div>
                         </div>
                     </div>
                 `

@@ -15,7 +15,7 @@ p {
 .post {
     width: 800px;
     border: 1px solid lightgrey;
-    padding: 10px 30px;
+    padding: 10px 70px 10px 10px;
     cursor: pointer;
     color: black;
     background-color: white;
@@ -86,7 +86,7 @@ p {
     margin-bottom: 50px;
 }
 
-.top img {
+.profilePic img {
     width: 50px;
     height: 50px;
     border: 2px solid lightgrey;
@@ -113,4 +113,22 @@ p {
     border-radius: 50px;
     margin-right: 10px;
     margin-top: 5px;
+}
+
+.postImgs {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+}
+
+.slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    margin-top: 20px;
+}
+
+.slide img {
+    width: 100%;
+    object-fit: cover;
 }

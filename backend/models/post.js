@@ -4,7 +4,6 @@ const postModel = mongoose.Schema(
     {
         content: {
             type: String,
-            required: [true, "Please enter the content of your post."]
         },
 
         author_id: {
@@ -17,6 +16,12 @@ const postModel = mongoose.Schema(
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Comment"
+            }
+        ],
+
+        imgs: [
+            {
+                type: String,
             }
         ]
     }, 

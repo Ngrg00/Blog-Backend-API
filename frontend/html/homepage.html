@@ -19,10 +19,15 @@
         </div>
 
         <div class="homepage">
-            <div class="addPost">
-                <textarea type="text" class="addPostInput" placeholder="Write something..."></textarea>
-                <button class="postBtn">POST</button>
-            </div>
+            <form class="addPost" enctype="multipart/form-data">
+                <textarea type="text" class="addPostInput" name="content" placeholder="Write something..."></textarea>
+                <div class="addImg">
+                    <img src="../img/edit.svg" alt="">
+                    <input class="imgsPreveiw" type="file" name="imgs" multiple hidden>
+                </div>
+                
+                <button type="submit" class="postBtn">POST</button>
+            </form>
         </div>  
         <script src="../script/homepage.js"></script>
         <script src="../script/header.js"></script>

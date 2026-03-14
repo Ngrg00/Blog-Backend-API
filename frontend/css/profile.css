@@ -97,23 +97,86 @@ p {
 
 .post {
     display: flex;
+    flex: 1;
     flex-direction: row;
+    align-items: top;
+    background-color: white;
     border: 1px solid lightgrey;
-    padding: 10px 30px;
+    padding: 10px;
+    margin: 20px;
+    margin-top: 0;
     cursor: pointer;
     color: black;
     text-decoration: none;
-    margin: 0 30px;
-    margin-bottom: 20px;
 }
 
 .top p {
-    font-size: 16px;
+    margin: 0;
 }
 
 .top {
+    display: flex;
     flex: 1;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 10px;
 }
+
+.top .userPost {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.profilePic img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid lightgrey;
+    border-radius: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.profileIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    font-family: Arial;
+    width: 50px;
+    height: 50px;
+    border: 2px solid lightgrey;
+    border-radius: 50px;
+    margin-right: 10px;
+    margin-top: 5px;
+    color: white;
+}
+
+.postImgs {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    width: 100%;
+}
+
+.postImg {
+    width: 100%;
+    object-fit: cover;
+}
+
+.slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    margin-top: 20px;
+}
+
+.slide img {
+    width: 100%;
+    object-fit: cover;
+}
+
 
 .bottom {
     position: relative;
