@@ -105,6 +105,64 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </div>
                     `;
 
+                    const slider = container.querySelector(".postImgs");
+
+                    if(post.imgs.length > 1) {
+                        slider.innerHTML = 
+                            `
+                                <button class="slideBtn left">←</button>
+                                ${imgs}
+                                <button class="slideBtn right">→</button>
+                            `;
+
+                        const dots = document.createElement("div");
+                        dots.className = "dots";
+
+                        post.imgs.forEach((_, index) => {
+                                const dot = document.createElement("span");
+                                dot.className = "dot";
+                                if(index === 0) dot.classList.add("active");
+
+                                dot.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+
+                                    slider.scrollTo({
+                                        left: slider.clientWidth * index,
+                                        behavior: "smooth"
+                                    });
+                                });
+
+                                dots.appendChild(dot); 
+                        });
+
+                        container.appendChild(dots);
+
+                        slider.addEventListener("scroll", () => {
+                            const index = Math.round(slider.scrollLeft / slider.clientWidth);
+
+                            const markers = dots.querySelectorAll(".dot");
+
+                            markers.forEach((dot, i) => dot.classList.toggle("active", i === index)); 
+                        });
+                    }
+
+                    const left = slider.querySelector(".left");
+                    const right = slider.querySelector(".right");
+
+                    if(left) {
+                        left.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            slider.scrollBy({ left: -slider.clientWidth, behavior: "smooth" });
+                        });
+                    }
+
+                    if(right) {
+                        right.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            slider.scrollBy({ left: slider.clientWidth, behavior: "smooth" });
+                        });
+                    }
+
                     const otherProfile = container.querySelector(".author");
 
                     otherProfile.addEventListener("click", (e) => {

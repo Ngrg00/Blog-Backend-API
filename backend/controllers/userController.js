@@ -30,7 +30,7 @@ const register = asyncHandler(async (req, res) => {
         username,
         email,
         password: hashedPassword,
-        bio,
+        bio: "",
         profileIcon,
         profilePic,
         profileBackground

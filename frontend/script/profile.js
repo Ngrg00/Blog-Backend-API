@@ -57,6 +57,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             icon = user.profileIcon.initial;
         }
 
+        if(user.bio === "undefined") {
+            user.bio = "";
+        }
+
         profileBottom.innerHTML = 
             `
                 <button class="editProfile">Edit profile</button>
@@ -310,6 +314,52 @@ document.addEventListener("DOMContentLoaded", async () => {
                         
                     `;
 
+                    if(!user.profilePic) {
+                        container.querySelector(".profilePic").style.backgroundColor = user.profileIcon.color;
+                    } else {
+                        container.querySelector(".profilePic").style.backgroundColor = "white";
+                    }
+
+                    const slider = container.querySelector(".postImgs");
+
+                    if(post.imgs.length > 1) {
+                        slider.innerHTML = 
+                            `
+                                <button class="slideBtn left">←</button>
+                                ${imgs}
+                                <button class="slideBtn right">→</button>
+                            `;
+
+                        const dots = document.createElement("div");
+                        dots.className = "dots";
+
+                        post.imgs.forEach((_, index) => {
+                                const dot = document.createElement("span");
+                                dot.className = "dot";
+                                if(index === 0) dot.classList.add("active");
+
+                                dot.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+
+                                    slider.scrollTo({
+                                        left: slider.clientWidth * index,
+                                        behavior: "smooth"
+                                    });
+                                });
+
+                                dots.appendChild(dot); 
+                        });
+
+                        container.appendChild(dots);
+
+                        slider.addEventListener("scroll", () => {
+                            const index = Math.round(slider.scrollLeft / slider.clientWidth);
+
+                            const markers = dots.querySelectorAll(".dot");
+
+                            markers.forEach((dot, i) => dot.classList.toggle("active", i === index)); 
+                        });
+                    }
                     const postOptionbtn = container.querySelector(".postOptionBtn");
                     const options = container.querySelector(".options");
 
@@ -402,8 +452,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         displayPost();
     } catch (error) {
-        sessionStorage.removeItem("token");
+        console.log(error);
+        // sessionStorage.removeItem("token");
 
-        window.location.href = "./login.html";
+        // window.location.href = "./login.html";
     }
 })
